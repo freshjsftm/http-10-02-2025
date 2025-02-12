@@ -1,16 +1,28 @@
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
-  switch (req.url) {
-    case '/':
-      res.end('home page');
-      break;
-    case '/about':
-      res.end('about page');
-      break;
-    default:
-      res.end('404 - not found!');
-      break;
+  const loadFile = (path) => {
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        throw err;
+      }
+      res.end(data);
+    });
+  };
+
+  if (req.method === 'GET') {
+    switch (req.url) {
+      case '/':
+        loadFile('./views/index.html');
+        break;
+      case '/about':
+        loadFile('./views/about.html');
+        break;
+      default:
+        loadFile('./views/404.html');
+        break;
+    }
   }
 });
 
