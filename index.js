@@ -24,6 +24,25 @@ const server = http.createServer((req, res) => {
         break;
     }
   }
+
+  if (req.method === 'POST') {
+    switch (req.url) {
+      case '/users':
+        let jsonString = '';
+        req.on('data', (chunk) => {
+          jsonString += chunk;
+        });
+        req.on('end', () => {
+          console.log(jsonString);
+          res.end('data receive');
+        });
+        break;
+
+      default:
+        res.end('not found url');
+        break;
+    }
+  }
 });
 
 const port = 3000;
