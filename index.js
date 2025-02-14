@@ -10,6 +10,10 @@ const server = http.createServer((req, res) => {
       res.end(data);
     });
   };
+  
+  if (req.url === '/views/style.css') {
+    loadFile('./views/style.css');
+  }
 
   if (req.method === 'GET') {
     switch (req.url) {
